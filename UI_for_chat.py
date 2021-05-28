@@ -1,7 +1,9 @@
+from Scooter import Bot_Response
 from kivy.core.audio import SoundLoader
 from kivymd.app import MDApp
 from kivy.utils import get_color_from_hex as hex8
 from kivy.core.window import Window
+from kivy.uix.image import Image
 from kivy.uix.widget import Widget
 from kivy.uix.scrollview import ScrollView
 from kivy.uix.textinput import TextInput
@@ -11,17 +13,27 @@ from kivymd.uix.button import MDRaisedButton
 from kivymd.uix.screen import MDScreen
 from kivymd.uix.gridlayout import MDGridLayout
 from kivymd.uix.boxlayout import MDBoxLayout
-from kivy.lang.builder import Builder as Render
 
 Window.size = (700, 800)
 sound = SoundLoader.load("sound.wav")
 
+num_list = range(144**3)
+listings = []
+constant = 1
+for i in num_list:
+    listings.append(i)
 
-class Screen4u(MDScreen):
+
+class Screen4u(MDScreen, Image):
 
     def __init__(self, **kwargs):
         super(MDRaisedButton).__init__(**kwargs)
         super().__init__(**kwargs)
+        self.i = Image()
+        self.incoming = MDFillRoundFlatButton()
+        self.msg = MDFillRoundFlatButton()
+        self.incoming_text = MDLabel()
+        self.text_msg = MDLabel()
         self.Box = MDBoxLayout()
         self.count = 0
         self.count_the_length = 0
@@ -89,55 +101,60 @@ class Screen4u(MDScreen):
         self.screen.add_widget(self.bottom)
         self.add_widget(self.screen)
 
-        position = self.Top.get_top()
-        x = self.Top.get_right()
-        print(x, position)
-
     def send_it(self, message):
-        test = str(input("Enter anything: "))
         self.count += 1
-        text_msg = MDLabel()
-        text_msg.color = hex8("#000000")
-        text_msg.text = message
-        text_msg.pos_hint = [0.5, 0.5]
-        text_msg.halign = "center"
-        msg = MDFillRoundFlatButton()
-        msg.md_bg_color = hex8("#ffff00")
-        msg.size_hint_x = 1
-        msg.height = 243
-        msg.padding = "3dp"
-        msg.add_widget(text_msg)
+        br = Bot_Response()
+        text = f"{self.text.text}"
+        abc = br.respond(text)
+        self.text_msg.color = hex8("#000000")
+        self.text_msg.text = message
+        self.text_msg.pos_hint = [0.5, 0.5]
+        self.text_msg.halign = "center"
+        self.text_msg.valign = "middle"
+        self.text_msg.font_size = "17dp" if len(self.text.text) < 14 else '10dp'
+        self.text_msg.texture_update()
+        self.text_msg.text_size = self.width, None
+        self.texture = self.text_msg.texture
+        self.msg.md_bg_color = hex8("#ffff00")
+        self.msg.size_hint_x = 1
+        self.msg.height = 243
+        self.msg.padding = "3dp"
+        self.msg.add_widget(self.text_msg)
         emp = Widget()
         emp.size_hint_x = 1
         emp.height = 0.5
         sound.play()
         if self.count >= 1:
             print(self.count)
-            self.Container.add_widget(msg)
+            self.Container.add_widget(self.msg)
             self.Container.add_widget(emp)
-        if test == "password":
-            self.response()
+            self.response(abc)
         return self.count
 
-    def response(self):
-        incoming_text = MDLabel()
-        incoming_text.color = hex8("#000000")
-        incoming_text.text = "Hello World!"
-        incoming_text.halign = "center"
-        incoming_text.pos_hint = [0.5, 0.5]
-        incoming = MDFillRoundFlatButton()
-        incoming.md_bg_color = hex8("#ffff00")
-        incoming.size_hint_x = 1
-        incoming.height = 243
-        incoming.padding = "3dp"
-        incoming.add_widget(incoming_text)
+    def response(self, query):
+        self.incoming_text.color = hex8("#000000")
+        self.incoming_text.text = query
+        self. incoming_text.halign = "center"
+        self.incoming_text.valign = "middle"
+        self.incoming_text.pos_hint = [0.5, 0.5]
+        self.incoming_text.font_size = "17dp" if len(self.text.text) < 14 else '10dp'
+        self.incoming_text.texture_update()
+        self.incoming_text.text_size = self.width, None
+        self.texture = self.incoming_text.texture
+        self.incoming.md_bg_color = hex8("#ffff00")
+        self.incoming.size_hint_x = 1
+        self.incoming.height = 243
+        self.incoming.padding = "3dp"
+        self.incoming.add_widget(self.incoming_text)
         emp2 = Widget()
         emp2.size_hint_x = 1
         emp2.height = 0.5
         self.Top.size_hint_y = len(range(self.count))
         self.Bot.add_widget(emp2)
-        self.Bot.add_widget(incoming)
-        self.Scroll.scroll_to(incoming)
+        self.Bot.add_widget(self.incoming)
+        self.Container.height = self.text_msg.size_hint_y
+        self.Bot.width = self.incoming_text.size_hint_y
+        self.Scroll.scroll_to(self.incoming)
         sound.play()
 
 
@@ -146,7 +163,6 @@ class Text_for_UI(MDApp):
     def build(self):
         self.icon = "Scooter.png"
         self.title = "Scooter The Loyal Friend"
-        root = Render.load_file("text_for_ui.kv")
         return Screen4u()
 
 
