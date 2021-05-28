@@ -111,7 +111,7 @@ class Screen4u(MDScreen, Image):
         self.text_msg.pos_hint = [0.5, 0.5]
         self.text_msg.halign = "center"
         self.text_msg.valign = "middle"
-        self.text_msg.font_size = "17dp" if len(self.text.text) < 14 else '10dp'
+        self.text_msg.font_size = "17dp" if len(self.text.text) < 70 else '10dp'
         self.text_msg.texture_update()
         self.text_msg.text_size = self.width, None
         self.texture = self.text_msg.texture
@@ -137,7 +137,7 @@ class Screen4u(MDScreen, Image):
         self. incoming_text.halign = "center"
         self.incoming_text.valign = "middle"
         self.incoming_text.pos_hint = [0.5, 0.5]
-        self.incoming_text.font_size = "17dp" if len(self.text.text) < 14 else '10dp'
+        self.incoming_text.font_size = "17dp" if len(self.text.text) < 70 else '10dp'
         self.incoming_text.texture_update()
         self.incoming_text.text_size = self.width, None
         self.texture = self.incoming_text.texture
