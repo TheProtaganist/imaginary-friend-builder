@@ -1,5 +1,7 @@
-# Installation```shell
+# Installation
+```shell
 snap install imaginary-friend-builder
+```
 
 
 # About Imaginary Friend Builder
