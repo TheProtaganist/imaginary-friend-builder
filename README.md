@@ -7,4 +7,4 @@ snap install imaginary-friend-builder
 This is a snap package that let's you build your own chatbot
 
 # Get it on playstore!
-Coming soon
+Link: https://play.google.com/store/apps/details?id=com.FreshGames256.ChatBotBuilder256
