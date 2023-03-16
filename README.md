@@ -1,4 +1,7 @@
 # Installation
+
+## Note: Linux version not working until futher notice, in the meantime you can buy the app
+
 ```shell
 snap install imaginary-friend-builder
 ```
